@@ -129,6 +129,26 @@ main {
   color: #16a34a;
 }
 
+/* Chapter tag + difficulty row */
+.card-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.difficulty-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.diff-0 { background: #dcfce7; color: #15803d; }  /* Easy  - green  */
+.diff-1 { background: #fef9c3; color: #a16207; }  /* Medium - yellow */
+.diff-2 { background: #fee2e2; color: #b91c1c; }  /* Hard  - red    */
+
 /* Chapter tag */
 .chapter-tag {
   display: inline-block;
@@ -138,7 +158,6 @@ main {
   background: #eff6ff;
   padding: 3px 10px;
   border-radius: 99px;
-  margin-bottom: 14px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }

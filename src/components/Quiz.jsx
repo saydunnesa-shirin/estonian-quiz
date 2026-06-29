@@ -7,28 +7,63 @@ function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
 }
 
+// ── Difficulty-aware wrong answer selection ────────────────────────────────
+// difficulty 0 = easy   → random words, any chapter, same form
+// difficulty 1 = medium → same-chapter words OR other forms of same word mixed in
+// difficulty 2 = hard   → other forms of the SAME word first (most confusing),
+//                         topped up with same-chapter same-form words
+
+function getWrongOptions(word, formKey, correctAnswer, difficulty) {
+  const unique = (arr) => [...new Set(arr)].filter((v) => v !== correctAnswer);
+
+  // Other forms of the same word (e.g. ask pl.nom, offer pl.gen / pl.part as traps)
+  const sameWordOtherForms = unique(
+    FORM_KEYS.filter((k) => k !== formKey).map((k) => word.forms[k])
+  );
+
+  // Same chapter, same form (similar domain, same grammatical slot)
+  const sameChapterSameForm = unique(
+    vocabulary
+      .filter((w) => w !== word && w.chapter === word.chapter)
+      .map((w) => w.forms[formKey])
+  );
+
+  // Global fallback: any word, same form
+  const globalSameForm = unique(
+    vocabulary.filter((w) => w !== word).map((w) => w.forms[formKey])
+  );
+
+  let pool;
+  if (difficulty === 0) {
+    // Easy: anything goes — pick from global pool (varied, visually distinct)
+    pool = globalSameForm;
+  } else if (difficulty === 1) {
+    // Medium: prioritise same-chapter words, mix in some other forms of same word
+    pool = unique([...shuffle(sameChapterSameForm), ...shuffle(sameWordOtherForms), ...globalSameForm]);
+  } else {
+    // Hard: lead with other forms of the same word (maximally confusing),
+    //        then same-chapter same-form, then global fallback
+    pool = unique([...shuffle(sameWordOtherForms), ...shuffle(sameChapterSameForm), ...globalSameForm]);
+  }
+
+  return shuffle(pool).slice(0, 3);
+}
+
 function generateQuestions(count) {
   const questions = [];
 
   for (let i = 0; i < count; i++) {
+    // Gradually increase difficulty: easy → medium → hard across the session
+    const difficulty = Math.min(2, Math.floor((i / count) * 3)); // 0, 1, or 2
+
     const word = vocabulary[Math.floor(Math.random() * vocabulary.length)];
     const formKey = FORM_KEYS[Math.floor(Math.random() * FORM_KEYS.length)];
     const correctAnswer = word.forms[formKey];
 
-    // Pool of wrong answers: other words' same form, excluding duplicates of correct
-    const wrongPool = [
-      ...new Set(
-        vocabulary
-          .filter((w) => w !== word)
-          .map((w) => w.forms[formKey])
-          .filter((v) => v !== correctAnswer)
-      ),
-    ];
-
-    const wrongOptions = shuffle(wrongPool).slice(0, 3);
+    const wrongOptions = getWrongOptions(word, formKey, correctAnswer, difficulty);
     const options = shuffle([correctAnswer, ...wrongOptions]);
 
-    questions.push({ word, formKey, correctAnswer, options });
+    questions.push({ word, formKey, correctAnswer, options, difficulty });
   }
 
   return questions;
@@ -113,7 +148,12 @@ export default function Quiz({ quizLength, onComplete }) {
 
       {/* ── Question card ── */}
       <div className="card">
-        <div className="chapter-tag">{q.word.chapter}</div>
+        <div className="card-top-row">
+          <div className="chapter-tag">{q.word.chapter}</div>
+          <div className={`difficulty-badge diff-${q.difficulty}`}>
+            {['Easy', 'Medium', 'Hard'][q.difficulty]}
+          </div>
+        </div>
 
         <p className="question-text">
           What is the{' '}
