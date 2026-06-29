@@ -10,10 +10,10 @@ function getHistory() {
   }
 }
 
-function saveResult(result) {
+function saveResult(result, scores) {
   const history = getHistory();
-  history.unshift({ ...result, date: new Date().toISOString() });
-  // Keep last 30 sessions — simple rolling cache, swap for a DB later
+  history.unshift({ ...result, scores, date: new Date().toISOString() });
+  // Keep last 30 sessions — swap for a DB later
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0, 30)));
 }
 
@@ -29,31 +29,47 @@ function emoji(p) {
   return '📚';
 }
 
-export default function Results({ result, onRestart }) {
-  // Save on first render; useState initializer runs once
+export default function Results({ result, scores = [], onRestart }) {
   const [history] = useState(() => {
-    saveResult(result);
+    saveResult(result, scores);
     return getHistory();
   });
 
-  const p = pct(result.correct, result.total);
+  const p     = pct(result.correct, result.total);
   const wrong = result.total - result.correct;
 
   return (
     <div className="results">
+      {/* ── Hero score ── */}
       <div className="result-hero">
         <div className="result-emoji">{emoji(p)}</div>
         <div className="result-score">{result.correct} / {result.total}</div>
         <div className="result-pct">{p}%</div>
-        <p className="result-sub">
-          {result.correct} correct · {wrong} wrong
-        </p>
+        <p className="result-sub">{result.correct} correct · {wrong} wrong</p>
       </div>
+
+      {/* ── Breakdown by section (only shown when > 1 section) ── */}
+      {scores.length > 1 && (
+        <div className="breakdown">
+          <h3>Breakdown</h3>
+          {scores.map((s, i) => {
+            const sp = pct(s.correct, s.total);
+            return (
+              <div key={i} className="breakdown-row">
+                <span className="breakdown-label">{s.label}</span>
+                <span className="breakdown-score">{s.correct}/{s.total}</span>
+                <span className={sp >= 70 ? 'pct-good' : 'pct-low'}>{sp}%</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       <button className="btn-primary" onClick={onRestart}>
         Play Again
       </button>
 
+      {/* ── History ── */}
       {history.length > 0 && (
         <div className="history">
           <h3>Your History</h3>

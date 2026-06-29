@@ -383,9 +383,144 @@ tr.row-latest td {
 .pct-good { color: #16a34a; font-weight: 600; }
 .pct-low  { color: #dc2626; }
 
+/* ── Start screen extras ──────────────────────────────────────────────────── */
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #374151;
+  cursor: pointer;
+}
+.toggle-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.start-total {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin-top: -8px;
+}
+
+/* ── Grammar card ─────────────────────────────────────────────────────────── */
+.grammar-wrap { /* same width as quiz */ }
+
+.grammar-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.grammar-icon { font-size: 2rem; margin-bottom: 6px; }
+.grammar-header h2 { font-size: 1.4rem; }
+.grammar-subtitle { color: #64748b; font-size: 0.93rem; margin-top: 4px; }
+
+.grammar-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.grammar-rule {
+  border-radius: 12px;
+  padding: 16px;
+}
+.grammar-ma { background: #f0f9ff; border: 1.5px solid #bae6fd; }
+.grammar-da { background: #fdf4ff; border: 1.5px solid #e9d5ff; }
+
+.grammar-rule h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.grammar-ma h3 { color: #0369a1; }
+.grammar-da h3 { color: #7e22ce; }
+
+.rule-desc {
+  font-size: 0.9rem;
+  color: #374151;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.trigger-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.chip {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 99px;
+}
+.chip-ma { background: #e0f2fe; color: #0369a1; }
+.chip-da { background: #f3e8ff; color: #7e22ce; }
+
+.grammar-examples {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.8;
+}
+.grammar-examples em  { color: #374151; }
+.grammar-examples strong { color: #0f172a; }
+
+/* ── Verb quiz question ───────────────────────────────────────────────────── */
+.verb-sentence {
+  font-size: 1.25rem;
+  margin: 6px 0 2px;
+  color: #0f172a;
+}
+.verb-blank {
+  display: inline-block;
+  min-width: 90px;
+  border-bottom: 2px solid #2563eb;
+  color: #94a3b8;
+  font-style: italic;
+}
+.verb-hint {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+/* DA / MA form badges */
+.badge-da { background: #f3e8ff; color: #7e22ce; }
+.badge-ma { background: #e0f2fe; color: #0369a1; }
+
+/* ── Score breakdown ──────────────────────────────────────────────────────── */
+.breakdown {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 18px 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+.breakdown h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+}
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+  gap: 8px;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label { color: #475569; flex: 1; }
+.breakdown-score { font-weight: 600; color: #0f172a; }
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 420px) {
   .card { padding: 20px 16px; }
   .result-score { font-size: 2rem; }
   .question-text { font-size: 0.97rem; }
+  .verb-sentence { font-size: 1.05rem; }
 }
