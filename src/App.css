@@ -517,10 +517,199 @@ tr.row-latest td {
 .breakdown-label { color: #475569; flex: 1; }
 .breakdown-score { font-weight: 600; color: #0f172a; }
 
+/* ── Back button ──────────────────────────────────────────────────────────── */
+.btn-back {
+  display: block;
+  margin: 6px auto 0;
+  background: none;
+  border: 1.5px solid #e2e8f0;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 14px;
+  border-radius: 8px;
+  transition: background 0.12s, border-color 0.12s;
+}
+.btn-back:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+/* ── Home screen ──────────────────────────────────────────────────────────── */
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.home-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topic-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.topic-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+}
+.topic-card:active { transform: translateY(0); }
+
+.topic-blue:hover   { border-color: #93c5fd; }
+.topic-green:hover  { border-color: #86efac; }
+.topic-purple:hover { border-color: #c4b5fd; }
+
+.topic-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.topic-info { flex: 1; }
+.topic-info h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+.topic-info p {
+  font-size: 0.88rem;
+  color: #475569;
+  margin-bottom: 2px;
+}
+.topic-info small {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.topic-arrow {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+/* ── Results extras ───────────────────────────────────────────────────────── */
+.result-topic {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.history-topic {
+  font-size: 0.78rem;
+  color: #64748b;
+  max-width: 120px;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+/* ── Pronoun grammar card ─────────────────────────────────────────────────── */
+.pro-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+}
+
+.pro-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.pro-table th,
+.pro-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+.pro-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.pro-table .nom-cell { font-weight: 600; color: #374151; }
+
+/* Column highlight colours */
+.col-blue   { color: #0369a1; background: #f0f9ff; }
+.col-green  { color: #15803d; background: #f0fdf4; }
+.col-orange { color: #c2410c; background: #fff7ed; }
+.col-purple { color: #7e22ce; background: #fdf4ff; }
+
+/* Case usage rule boxes */
+.pro-rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pro-rule {
+  border-radius: 10px;
+  padding: 12px;
+}
+.pro-blue   { background: #f0f9ff; border: 1.5px solid #bae6fd; }
+.pro-green  { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
+.pro-orange { background: #fff7ed; border: 1.5px solid #fed7aa; }
+.pro-purple { background: #fdf4ff; border: 1.5px solid #e9d5ff; }
+
+.pro-rule-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+.pro-rule-header strong { font-size: 0.92rem; font-weight: 700; }
+.pro-rule-label         { font-size: 0.68rem; color: #64748b; }
+
+.pro-blue   .pro-rule-header strong { color: #0369a1; }
+.pro-green  .pro-rule-header strong { color: #15803d; }
+.pro-orange .pro-rule-header strong { color: #c2410c; }
+.pro-purple .pro-rule-header strong { color: #7e22ce; }
+
+.pro-rule-verbs {
+  font-size: 0.76rem;
+  color: #475569;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.pro-rule-example {
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+/* ── Pronoun quiz difficulty badges ───────────────────────────────────────── */
+.badge-kellele { background: #e0f2fe; color: #0369a1; }
+.badge-kellel  { background: #dcfce7; color: #15803d; }
+.badge-kellelt { background: #ffedd5; color: #c2410c; }
+.badge-keda    { background: #f3e8ff; color: #7e22ce; }
+.badge-kelle   { background: #fef9c3; color: #a16207; }
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 420px) {
   .card { padding: 20px 16px; }
   .result-score { font-size: 2rem; }
   .question-text { font-size: 0.97rem; }
   .verb-sentence { font-size: 1.05rem; }
+  .pro-rules { grid-template-columns: 1fr; }
+  .topic-card { padding: 16px; }
 }

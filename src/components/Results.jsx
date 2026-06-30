@@ -13,7 +13,6 @@ function getHistory() {
 function saveResult(result, scores) {
   const history = getHistory();
   history.unshift({ ...result, scores, date: new Date().toISOString() });
-  // Keep last 30 sessions — swap for a DB later
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history.slice(0, 30)));
 }
 
@@ -29,9 +28,9 @@ function emoji(p) {
   return '📚';
 }
 
-export default function Results({ result, scores = [], onRestart }) {
+export default function Results({ result, scores = [], topicLabel, onRestart }) {
   const [history] = useState(() => {
-    saveResult(result, scores);
+    saveResult({ ...result, topic: topicLabel }, scores);
     return getHistory();
   });
 
@@ -43,12 +42,13 @@ export default function Results({ result, scores = [], onRestart }) {
       {/* ── Hero score ── */}
       <div className="result-hero">
         <div className="result-emoji">{emoji(p)}</div>
+        {topicLabel && <p className="result-topic">{topicLabel}</p>}
         <div className="result-score">{result.correct} / {result.total}</div>
         <div className="result-pct">{p}%</div>
         <p className="result-sub">{result.correct} correct · {wrong} wrong</p>
       </div>
 
-      {/* ── Breakdown by section (only shown when > 1 section) ── */}
+      {/* ── Breakdown by section (only when > 1 section) ── */}
       {scores.length > 1 && (
         <div className="breakdown">
           <h3>Breakdown</h3>
@@ -66,7 +66,7 @@ export default function Results({ result, scores = [], onRestart }) {
       )}
 
       <button className="btn-primary" onClick={onRestart}>
-        Play Again
+        ← Back to Topics
       </button>
 
       {/* ── History ── */}
@@ -77,6 +77,7 @@ export default function Results({ result, scores = [], onRestart }) {
             <thead>
               <tr>
                 <th>Date</th>
+                <th>Topic</th>
                 <th>Score</th>
                 <th>%</th>
               </tr>
@@ -86,7 +87,14 @@ export default function Results({ result, scores = [], onRestart }) {
                 const p2 = pct(h.correct, h.total);
                 return (
                   <tr key={i} className={i === 0 ? 'row-latest' : ''}>
-                    <td>{new Date(h.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                    <td>
+                      {new Date(h.date).toLocaleDateString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </td>
+                    <td className="history-topic">{h.topic || '—'}</td>
                     <td>{h.correct} / {h.total}</td>
                     <td className={p2 >= 70 ? 'pct-good' : 'pct-low'}>{p2}%</td>
                   </tr>
