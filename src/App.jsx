@@ -47,7 +47,7 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <span className="flag">🇪🇪</span>
-        <h1>Estonian A2 Quiz</h1>
+        <h1>Estonian A2/B1 Quiz</h1>
         {screen !== 'home' && (
           <button className="btn-back" onClick={() => setScreen('home')}>
             ← Back to Topics
